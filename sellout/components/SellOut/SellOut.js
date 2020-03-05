@@ -12,19 +12,31 @@ const SellOut = (props) => {
     console.log(props);
 
     return (
-        <Tab.Navigator>
+        <Tab.Navigator tabBarOptions={{
+            style: {
+                backgroundColor: '#fff',
+                borderTopColor: 'black',
+                borderTopWidth: 1
+            },
+            // activeBackgroundColor: 'blue', 
+            activeTintColor: 'black',
+            labelStyle: {
+                fontSize: 12,
+                fontWeight: 'bold'
+            }
+        }}>
             <Tab.Screen name='Feed'
                         options={{
-                            tabBarIcon: ({ color, size }) => (
-                                <Ionicons name='ios-home' color={color} size={size} />
+                            tabBarIcon: () => (
+                                <Ionicons name='ios-home' color='black' size={25} />
                             )
                         }} >
                 { props => <Feed {...props} userInfo={props.userInfo}  /> }
             </Tab.Screen>
             <Tab.Screen name='Library'
                         options={{
-                            tabBarIcon: ({ color, size }) => (
-                                <Ionicons name='ios-list' color={color} size={size} />
+                            tabBarIcon: () => (
+                                <Ionicons name='ios-list' color='black' size={25} />
                             )
                         }} >
                 { props => <Library {...props} userInfo={props.userInfo}  /> }
