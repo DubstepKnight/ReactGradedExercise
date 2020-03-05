@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef, useState } from 'react'
 import { StyleSheet, 
          Text, 
          View, 
@@ -8,6 +8,22 @@ import { StyleSheet,
          TouchableWithoutFeedback } from 'react-native'
 
 const Register = (props) => {
+
+    const passwordRef = useRef();
+    const emailRef = useRef();
+
+    const errorView = <View style={{marginTop: 10}}>
+        <Text style={{fontSize: 15, color: 'red'}} >
+            The username, email and/or the password are incorrect!
+        </Text>
+    </View>
+
+    // const onRegistrationSuccess = () => {
+        if ( props.registrationSuccess) {
+            props.navigation.navigate('SuccessfulRegistration');
+        }
+    // }
+
     return (
         <View style={styles.container}>
             <View style={styles.upperBody}>
@@ -20,22 +36,38 @@ const Register = (props) => {
                     <View>
                         <Text style={styles.label} > Username </Text>
                         <TextInput style={styles.inputField} 
-                                   autoFocus={true}
+                                   placeholder='Your username'
+                                   returnKeyType='next'
+                                   enablesReturnKeyAutomatically={true}
+                                   onSubmitEditing={() => passwordRef.current.focus()}
                                    onChangeText={value => props.setUsername(value) } />
                     </View>
                     <View style={{marginTop: 5}} >
                         <Text style={styles.label} > Password </Text>
-                        <TextInput style={styles.inputField} 
+                        <TextInput style={styles.inputField}
+                                   placeholder='Your password' 
+                                   returnKeyType='next'
+                                   enablesReturnKeyAutomatically={true}
+                                   onSubmitEditing={() => emailRef.current.focus()}
                                    secureTextEntry={true}
+                                   ref={passwordRef}
                                    onChangeText={value => props.setPassword(value) } />
                     </View>
                     <View style={{marginTop: 5}}>
                         <Text style={styles.label} > Email </Text>
-                        <TextInput style={styles.inputField} onChangeText={value => props.setEmail(value) } />
+                        <TextInput style={styles.inputField}
+                                   placeholder='Your email'
+                                   returnKeyType="done"
+                                   keyboardType='email-address'
+                                   enablesReturnKeyAutomatically={true}
+                                   onSubmitEditing={props.registerHandler}
+                                   ref={emailRef}
+                                   onChangeText={value => props.setEmail(value) } />
                     </View>
+                    { props.error ? errorView : null }
                     <TouchableOpacity onPress={props.registerHandler} >
-                        <View style={styles.loginButton} >
-                            <Text style={{color: 'white', fontSize: 20}}> Register </Text>
+                        <View style={styles.registerButton} >
+                            <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}> Register </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -61,10 +93,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: 5
     },
     upperBody: {
-        flex: 6,
+        flex: 4,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 0
@@ -81,15 +114,18 @@ const styles = StyleSheet.create({
         borderWidth: 2.5,
         borderRadius: 2,
         height: 33,
-        marginTop: 7
+        marginTop: 7,
+        padding: 2
     },
-    loginButton: {
+    registerButton: {
         borderColor: 'black',
         borderRadius: 2,
         backgroundColor: 'black',
         borderWidth: 2,
         alignItems: 'center',
-        marginTop: 20,
+        justifyContent: 'center',
+        marginTop: 10,
+        height: 50,
         width: 'auto',
     }
 })
