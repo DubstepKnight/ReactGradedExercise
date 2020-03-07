@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack'
+// import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store'
 import { StyleSheet, StatusBar } from 'react-native';
 // import jwtJsDecode from 'jwt-js-decode';
@@ -38,11 +39,6 @@ export default class App extends Component {
       });
   }
 
-  onLoginReceiveJWT = (responseJWT) => {
-    // Deal with successful login by storing the token into secure store
-    
-  }
-
   jwtCatcher = (token) => {
     console.log(token);
     // this.setState({jwt: token});
@@ -62,7 +58,7 @@ export default class App extends Component {
         <NavigationContainer>
           <StatusBar barStyle='dark-content' />
           {/* <Stack.Navigator> */}
-            {this.state.jwt === null ? <Auth jwtCatcher={this.jwtCatcher} /> : <SellOut userInfo={this.state.userInfo} /> }
+            {this.state.isCheckingTokenStorage ?  <ActivityIndicator style={{flex: 1}} color='black' size='large' /> : this.state.jwt === null ? <Auth jwtCatcher={this.jwtCatcher} /> : <SellOut userInfo={this.state.userInfo} /> }
           {/* </Stack.Navigator> */}
         </NavigationContainer>
       // </View>
