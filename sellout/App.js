@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store'
 import { StyleSheet, StatusBar } from 'react-native';
 // import jwtJsDecode from 'jwt-js-decode';
 import Auth from './components/auth/Auth';
 import SellOut from './components/SellOut/SellOut';
 
-// const Stack = createStackNavigator();
+const Stack = createStackNavigator();
 const secureStoreTokenName = "demoAppJWT2";
 
 export default class App extends Component {
@@ -31,7 +31,7 @@ export default class App extends Component {
     SecureStore.getItemAsync(secureStoreTokenName)
       .then(response => {
         console.log("SecureStore.getItemAsync success");
-        this.setState({ jwt: response, isCheckingTokenStorage: false });
+        this.setState({ jwt: null, isCheckingTokenStorage: false });
       })
       .catch(error => {
         console.log("SecureStore.getItemAsync error");
@@ -57,9 +57,12 @@ export default class App extends Component {
       // <View >
         <NavigationContainer>
           <StatusBar barStyle='dark-content' />
-          {/* <Stack.Navigator> */}
-            {this.state.isCheckingTokenStorage ?  <ActivityIndicator style={{flex: 1}} color='black' size='large' /> : this.state.jwt === null ? <Auth jwtCatcher={this.jwtCatcher} /> : <SellOut userInfo={this.state.userInfo} /> }
-          {/* </Stack.Navigator> */}
+          {/* <Stack.Navigator>
+            <Stack.Screen name='App'
+                          options={{headerShown: false}} > */}
+              { this.state.isCheckingTokenStorage ? <ActivityIndicator style={{flex: 1}} color='black' size='large' /> : <SellOut jwt={this.state.jwt} userInfo={this.state.userInfo} /> }
+            {/* </Stack.Screen>
+          </Stack.Navigator> */}
         </NavigationContainer>
       // </View>
     );

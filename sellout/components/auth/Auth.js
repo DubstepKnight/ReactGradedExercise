@@ -67,6 +67,7 @@ const Auth = (props) => {
     }
 
     return (
+        // <>
         <Stack.Navigator initialRouteName="Login" >
             <Stack.Screen name="Login" 
                           options={{
@@ -104,7 +105,7 @@ const Auth = (props) => {
                 { props => <SuccessfulRegistration {...props} /> }  
             </Stack.Screen>
         </Stack.Navigator>
-        // <Login />
+        // </>
     )
 }
 
