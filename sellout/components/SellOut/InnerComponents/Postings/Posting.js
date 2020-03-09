@@ -4,17 +4,28 @@ import { StyleSheet,
          ScrollView,
          Image,
          View } from 'react-native'
+import { SliderBox } from "react-native-image-slider-box";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Posting = ({route, navigation}) => {
 
     console.log('posting props: ',  route.params);
 
+    const images = [
+        `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[0]}`,
+        `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[1]}`,
+        `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[2]}`,
+        `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[3]}`
+    ];
+
+    const width = 250;
+
     return (
         <ScrollView style={styles.container} >
             <View style={styles.imagesContainer} >
-                <Image source={{uri: `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[0]}`}}
-                    style={styles.image} />
+                {/* <Image source={{uri: `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[0]}`}}
+                    style={styles.image} /> */}
+                    <SliderBox images={images} />
             </View>
             <View>
 
