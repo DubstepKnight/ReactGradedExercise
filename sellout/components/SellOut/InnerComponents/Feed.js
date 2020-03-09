@@ -7,9 +7,10 @@ import { StyleSheet,
 import { createStackNavigator } from '@react-navigation/stack';
 import axios from 'axios';
 import Header from './Header';
+import Posting from './Postings/Posting';
 import PostingFeed from './Postings/PostingFeed';
 
-const Feed = () => {
+const Feed = (props) => {
 
     // Stack navigation stuff
     // const Stack = createStackNavigator();
@@ -18,6 +19,8 @@ const Feed = () => {
     const [isFetching, setIsFetching] = useState(true);
 
     const useEffectStopper = [0];
+
+    console.log('feed: ',  props);
 
     useEffect(() => {
         axios.get('https://sell-0ut.herokuapp.com/v1/postings/').then(res => {
@@ -47,9 +50,13 @@ const Feed = () => {
 
     const flatList = <>
         <FlatList data={postings}
+                  style={{padding: 5}}
                   renderItem={({item}) => (
             <PostingFeed postingData={item} 
-                  keyExtractor={item.id} />
+                  keyExtractor={item.id}
+                  navigation={props.navigation} >
+                <Posting data={item} />
+            </PostingFeed>
         )} />
     </>
 
@@ -84,7 +91,7 @@ const styles = StyleSheet.create({
     },
     feed: {
         flex: 10,
-        marginLeft: 5,
-        marginTop: 5,
+        // marginLeft: 5,
+        // marginTop: 5,
     }
 })

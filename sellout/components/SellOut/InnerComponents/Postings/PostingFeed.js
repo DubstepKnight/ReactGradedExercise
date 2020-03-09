@@ -2,29 +2,40 @@ import React from 'react';
 import { StyleSheet, 
          Text,
          Image, 
+         TouchableOpacity,
          View } from 'react-native';
 
 const PostingFeed = (props) => {
 
-    // console.log("props: ",  props);
+    console.log("posting feed props: ",  props.postingData);
     // console.log('posting image: ', props.postingData.images[0]);
 
+    // props.navigation.navigate('posting', {
+    //     // id: props.postingData.id,
+    //     ...props.postingData
+    // } )
+
     return (
-        <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <Image source={{uri: `https://sell-0ut.herokuapp.com/public/uploads/${props.postingData.images[0]}`}}
-                       style={styles.image} />
+        <TouchableOpacity onPress={() => props.navigation.navigate('posting', {
+                // id: props.postingData.id,
+                title: props.postingData.title,
+                ...props.postingData
+            } )} >
+            <View style={styles.container}>
+                <View style={styles.imageContainer}>
+                    <Image source={{uri: `https://sell-0ut.herokuapp.com/public/uploads/${props.postingData.images[0]}`}}
+                        style={styles.image} />
+                </View>
+                <View>
+                    <Text style={{fontWeight: 'bold', fontSize: 20}} > {props.postingData.title} </Text>
+                    <Text> {props.postingData.category} </Text>
+                    <Text> {props.postingData.price} euros </Text>
+                    <Text> Delivery type:  {props.postingData.deliveryType} </Text>
+                    <Text> Location: {props.postingData.location} </Text>
+                    <Text> Posted: {props.postingData.dateOfPosting.substring(0, 10)} </Text>
+                </View>
             </View>
-            <View>
-                <Text style={{fontWeight: 'bold', fontSize: 20}} > {props.postingData.title} </Text>
-                {/* <Text> Posting id: {props.postingData.id} </Text> */}
-                <Text> {props.postingData.category} </Text>
-                <Text> {props.postingData.price} euros </Text>
-                <Text> Delivery type:  {props.postingData.deliveryType} </Text>
-                <Text> Location: {props.postingData.location} </Text>
-                <Text> Posted: {props.postingData.dateOfPosting.substring(0, 10)} </Text>
-            </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 
@@ -42,7 +53,7 @@ const styles = StyleSheet.create({
         // borderColor: 'black'
     },
     image: {
-        width: 140,
-        height: 120
+        width: 120,
+        height: 100
     }
 })

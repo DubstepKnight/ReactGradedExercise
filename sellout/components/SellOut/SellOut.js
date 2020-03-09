@@ -24,6 +24,14 @@ const TabNavigation = (tabProps) => {
         tabProps.navigation.navigate('auth');
     }
 
+    const createPosting = () => {
+        tabProps.navigation.navigate('')
+    }
+
+    const nagivateToPosting = () => {
+
+    }
+
     return (
         <>
         <Header jwt={props.jwt} navigation={tabProps.navigation} navigateToAuth={navigateToAuth} style={styles.Header} />
@@ -31,7 +39,7 @@ const TabNavigation = (tabProps) => {
             style: {
                 backgroundColor: '#fff',
                 borderTopColor: 'black',
-                borderTopWidth: 1
+                borderTopWidth: 0
             },
             // activeBackgroundColor: 'blue', 
             activeTintColor: 'black',
@@ -73,15 +81,15 @@ const TabNavigation = (tabProps) => {
         // <View style={{flex: 1, backgrdounColor: 'red'}} >
             <Stack.Navigator>
                 <Stack.Screen name='tabs'
-                            options={{headerShown: false}} >
+                              options={{headerShown: false}} >
                     {props => <TabNavigation {...props} />}
                 </Stack.Screen>
                 <Stack.Screen name='posting'
-                            options={{headerShown: false}} >
+                              options={{headerShown: false}} >
                     {props => <Posting {...props} /> }
                 </Stack.Screen>
                 <Stack.Screen name='auth'
-                            options={{headerShown: false}} >
+                              options={{headerShown: false}} >
                     {props => <Auth {...props} /> }
                 </Stack.Screen>
             </Stack.Navigator>

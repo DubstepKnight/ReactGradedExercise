@@ -69,6 +69,7 @@ const Header = (props) => {
     }
 
     const postingCreate = () => {
+        // props.navigat
         console.log('create posting has been pressed');
     }
 
@@ -104,7 +105,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center',
         marginTop: 20,
-        borderBottomWidth: 1
+        backgroundColor: 'white',
+        // borderBottomWidth: 1
     },
     searchIcon: {
         flex: 1,

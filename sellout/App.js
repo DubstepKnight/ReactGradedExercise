@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SecureStore from 'expo-secure-store'
 import { StyleSheet, StatusBar } from 'react-native';
+import Constants from 'expo-constants';
 // import jwtJsDecode from 'jwt-js-decode';
 import Auth from './components/auth/Auth';
 import SellOut from './components/SellOut/SellOut';
@@ -31,7 +32,7 @@ export default class App extends Component {
     SecureStore.getItemAsync(secureStoreTokenName)
       .then(response => {
         console.log("SecureStore.getItemAsync success");
-        this.setState({ jwt: null, isCheckingTokenStorage: false });
+        this.setState({ jwt: response, isCheckingTokenStorage: false });
       })
       .catch(error => {
         console.log("SecureStore.getItemAsync error");
@@ -56,7 +57,9 @@ export default class App extends Component {
     return (
       // <View >
         <NavigationContainer style={styles.container} >
-          <StatusBar barStyle='dark-content' />
+          <View style={{backgroundColor: 'white', flex: 0}} >
+            <StatusBar translucent={true} barStyle='dark-content' />
+          </View>
           {/* <Stack.Navigator>
             <Stack.Screen name='App'
                           options={{headerShown: false}} > */}
