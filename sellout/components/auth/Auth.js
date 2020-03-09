@@ -17,7 +17,7 @@ const Auth = (props) => {
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
     const [isSpinner, setIsSpinner] = useState(false);
 
-    console.log(props);
+    console.log('auth props: ', props);
 
     const errorCatcher = (err) => {
         console.log(err);
@@ -73,7 +73,7 @@ const Auth = (props) => {
                           options={{
                             headerShown: false
                           }} >
-                { props => <Login {...props} username={username}
+                { thisProps => <Login {...thisProps} username={username}
                                              setUsername={setUsername}
                                              password={password}
                                              setPassword={setPassword}
@@ -86,7 +86,7 @@ const Auth = (props) => {
                           options={{
                             headerShown: false
                           }} >
-                { props => <Register {...props} username={username}
+                { thisProps => <Register {...thisProps} username={username}
                                                 setUsername={setUsername}
                                                 password={password}
                                                 setPassword={setPassword}
@@ -102,7 +102,7 @@ const Auth = (props) => {
                           options={{
                             headerShown: false
                           }} >
-                { props => <SuccessfulRegistration {...props} /> }  
+                { thisProps => <SuccessfulRegistration {...thisProps} /> }  
             </Stack.Screen>
         </Stack.Navigator>
         // </>

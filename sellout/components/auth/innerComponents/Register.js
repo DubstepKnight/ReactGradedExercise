@@ -4,8 +4,11 @@ import { StyleSheet,
          View, 
          Button,
          TextInput,
+         ActivityIndicator,
          TouchableOpacity,
-         TouchableWithoutFeedback } from 'react-native'
+         Keyboard,
+         TouchableWithoutFeedback, 
+         KeyboardAvoidingView} from 'react-native'
 
 const Register = (props) => {
 
@@ -23,63 +26,79 @@ const Register = (props) => {
             props.navigation.navigate('SuccessfulRegistration');
         }
     // }
+    console.log('updated');
 
     return (
-        <View style={styles.container}>
-            <View style={styles.upperBody}>
-                <Text style={{fontSize: 40 }} > SellOut! </Text>
-                <Text style={{fontSize: 16, marginTop: 15 }} > sell anything, even yourself </Text>
-                <Text style={{fontSize: 30, marginTop: 50 }} > Register </Text>
-            </View>
-            <View style={styles.lowerBody}>
-                <View>
-                    <View>
-                        <Text style={styles.label} > Username </Text>
-                        <TextInput style={styles.inputField} 
-                                   placeholder='Your username'
-                                   returnKeyType='next'
-                                   enablesReturnKeyAutomatically={true}
-                                   onSubmitEditing={() => passwordRef.current.focus()}
-                                   onChangeText={value => props.setUsername(value) } />
-                    </View>
-                    <View style={{marginTop: 5}} >
-                        <Text style={styles.label} > Password </Text>
-                        <TextInput style={styles.inputField}
-                                   placeholder='Your password' 
-                                   returnKeyType='next'
-                                   enablesReturnKeyAutomatically={true}
-                                   onSubmitEditing={() => emailRef.current.focus()}
-                                   secureTextEntry={true}
-                                   ref={passwordRef}
-                                   onChangeText={value => props.setPassword(value) } />
-                    </View>
-                    <View style={{marginTop: 5}}>
-                        <Text style={styles.label} > Email </Text>
-                        <TextInput style={styles.inputField}
-                                   placeholder='Your email'
-                                   returnKeyType="done"
-                                   keyboardType='email-address'
-                                   enablesReturnKeyAutomatically={true}
-                                   onSubmitEditing={props.registerHandler}
-                                   ref={emailRef}
-                                   onChangeText={value => props.setEmail(value) } />
-                    </View>
-                    { props.error ? errorView : null }
-                    <TouchableOpacity onPress={props.registerHandler} >
-                        <View style={styles.registerButton} >
-                            <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}> Register </Text>
+        <View style={styles.container} >
+            <KeyboardAvoidingView behavior='position' style={{flex: 1}}  >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.innerContainer}>
+                        <View style={styles.upperBody}>
+                            <Text style={{fontSize: 40 }} > SellOut! </Text>
+                            <Text style={{fontSize: 16 }} > sell anything, even yourself </Text>
+                            <Text style={{fontSize: 30 }} > Register </Text>
                         </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={{marginTop: 15}} >
-                    <View style={{flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 13, color: 'black' }}> You have an account already? - </Text>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Login')} >
-                            <Text style={{fontSize: 13, color: 'black', fontWeight: 'bold'}} > login </Text>
-                        </TouchableOpacity>
+                        <View style={styles.lowerBody}>
+                            <View>
+                                <View>
+                                    <Text style={styles.label} > Username </Text>
+                                    <TextInput style={styles.inputField} 
+                                            placeholder='Your username'
+                                            returnKeyType='next'
+                                            enablesReturnKeyAutomatically={true}
+                                            onSubmitEditing={() => passwordRef.current.focus()}
+                                            onChangeText={value => props.setUsername(value) } />
+                                </View>
+                                <View style={{marginTop: 5}} >
+                                    <Text style={styles.label} > Password </Text>
+                                    <TextInput style={styles.inputField}
+                                            placeholder='Your password' 
+                                            returnKeyType='next'
+                                            enablesReturnKeyAutomatically={true}
+                                            onSubmitEditing={() => emailRef.current.focus()}
+                                            secureTextEntry={true}
+                                            ref={passwordRef}
+                                            onChangeText={value => props.setPassword(value) } />
+                                </View>
+                                <View style={{marginTop: 5}}>
+                                    <Text style={styles.label} > Email </Text>
+                                    <TextInput style={styles.inputField}
+                                            placeholder='Your email'
+                                            returnKeyType="done"
+                                            keyboardType='email-address'
+                                            enablesReturnKeyAutomatically={true}
+                                            onSubmitEditing={props.registerHandler}
+                                            ref={emailRef}
+                                            onChangeText={value => props.setEmail(value) } />
+                                </View>
+                                { props.error ? errorView : null }
+                                <TouchableOpacity onPress={ props.isSpinner ? null : props.registerHandler} >
+                                    <View style={styles.registerButton} >
+                                        {
+                                            props.isSpinner ? <ActivityIndicator size='small' color='black' /> : <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}> Register </Text>
+                                        }
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity   onPress={ props.isSpinner ? null : props.navigation.goBack } >
+                                    <View style={styles.cancelButton} >
+                                        {
+                                            props.isSpinner ? <ActivityIndicator size='small' color='black' /> : <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}> Back </Text>
+                                        }
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{marginTop: 15}} >
+                                <View style={{flexDirection: 'row' }}>
+                                    <Text style={{ fontSize: 13, color: 'black' }}> You have an account already? - </Text>
+                                    <TouchableOpacity onPress={() => props.navigation.navigate('Login')} >
+                                        <Text style={{fontSize: 13, color: 'black', fontWeight: 'bold'}} > login </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </View>
         // <View style={styles.container}>
             
@@ -94,13 +113,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 5
+        padding: 5,
+        backgroundColor: 'white'
     },
+    innerContainer: {
+        flex: 1,
+        justifyContent: 'flex-end'
+    },  
     upperBody: {
         flex: 4,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
-        marginTop: 0
+        // marginTop: 0
     },
     lowerBody: {
         flex: 7
@@ -121,6 +145,17 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderRadius: 2,
         backgroundColor: 'black',
+        borderWidth: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        height: 50,
+        width: 'auto',
+    },
+    cancelButton: {
+        borderColor: 'black',
+        borderRadius: 2,
+        backgroundColor: 'white',
         borderWidth: 2,
         alignItems: 'center',
         justifyContent: 'center',

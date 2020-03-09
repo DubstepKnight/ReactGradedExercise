@@ -92,11 +92,6 @@ const Header = (props) => {
                     }
             </View>
         </View>
-        // <Stack.Navigator>
-        //     <Stack.Screen name='header' >
-        //         {props => headerItself }
-        //     </Stack.Screen>
-        // </Stack.Navigator>
     )
 }
 

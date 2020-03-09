@@ -55,7 +55,7 @@ export default class App extends Component {
 
     return (
       // <View >
-        <NavigationContainer>
+        <NavigationContainer style={styles.container} >
           <StatusBar barStyle='dark-content' />
           {/* <Stack.Navigator>
             <Stack.Screen name='App'
@@ -72,7 +72,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -2,9 +2,12 @@ import React, { useState, useRef } from 'react'
 import { StyleSheet,
          Text, 
          View, 
+         Keyboard,
          TextInput,
          TouchableOpacity,
          ActivityIndicator,
+         KeyboardAvoidingView,
+         TouchableWithoutFeedback,
          Button } from 'react-native'
 
 const Login = (props) => {
@@ -13,61 +16,76 @@ const Login = (props) => {
     // console.log("Login props: ", props);
     // console.log('error: ', {...props.error});
 
-    const errorView = <View style={{marginTop: 10}} >
+    const errorView = <>
         <Text style={{fontSize: 15, color: 'red'}} >
             The username and/or the password are incorrect!
         </Text>
-    </View>
+    </>
 
     const passwordRef = useRef();
 
     return (
-        <View style={styles.container}>
-            <View style={styles.upperBody}>
-                <Text style={{fontSize: 40 }} > SellOut! </Text>
-                <Text style={{fontSize: 16, marginTop: 15 }} > sell anything, even yourself </Text>
-                <Text style={{fontSize: 30, marginTop: 20 }} > Login </Text>
-            </View>
-            <View style={styles.lowerBody}>
-                <View>
-                    <View>
-                        <Text style={styles.label} > Username </Text>
-                        <TextInput style={styles.inputField}
-                                   placeholder='Your username'
-                                   returnKeyType="next"
-                                   enablesReturnKeyAutomatically={true}
-                                   onSubmitEditing={() => passwordRef.current.focus()}
-                                   onChangeText={value => props.setUsername(value) } />
-                    </View>
-                    <View style={{marginTop: 5}} >
-                        <Text style={styles.label} > Password </Text>
-                        <TextInput style={styles.inputField} 
-                                   placeholder='Your password'
-                                   returnKeyType="done"
-                                   enablesReturnKeyAutomatically={true}
-                                   secureTextEntry={true}
-                                   ref={passwordRef}
-                                   onSubmitEditing={props.loginHandler}
-                                   onChangeText={value => props.setPassword(value) } />
-                    </View>
-                    { props.error ? errorView : null }
-                    <TouchableOpacity   onPress={ props.isSpinner ? null : props.loginHandler } >
-                        <View style={styles.loginButton} >
-                            {
-                                props.isSpinner ? <ActivityIndicator size='small' color='white' /> : <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}> Login </Text>
-                            }
+        <View style={styles.container} >
+            <KeyboardAvoidingView behavior='position' style={{flex: 1}} >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.innerContainer}>
+                        <View style={styles.upperBody}>
+                            <Text style={{fontSize: 40 }} > SellOut! </Text>
+                            <Text style={{fontSize: 16 }} > sell anything, even yourself </Text>
+                            <Text style={{fontSize: 30 }} > Login </Text>
                         </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={{marginTop: 40}} >  
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={{ fontSize: 13 }}> Do not have an account? - </Text>
-                        <TouchableOpacity onPress={() => props.navigation.navigate('Register')} >
-                            <Text style={{fontSize: 13, color: 'black', fontWeight: 'bold'}} > register </Text>
-                        </TouchableOpacity>
+                        <View style={styles.lowerBody}>
+                            <View>
+                                <View>
+                                    <Text style={styles.label} > Username </Text>
+                                    <TextInput style={styles.inputField}
+                                            placeholder='Your username'
+                                            returnKeyType="next"
+                                            enablesReturnKeyAutomatically={true}
+                                            onSubmitEditing={() => passwordRef.current.focus()}
+                                            onChangeText={value => props.setUsername(value) } />
+                                </View>
+                                <View style={{marginTop: 5}} >
+                                    <Text style={styles.label} > Password </Text>
+                                    <TextInput style={styles.inputField} 
+                                            placeholder='Your password'
+                                            returnKeyType="done"
+                                            enablesReturnKeyAutomatically={true}
+                                            secureTextEntry={true}
+                                            ref={passwordRef}
+                                            onSubmitEditing={props.loginHandler}
+                                            onChangeText={value => props.setPassword(value) } />
+                                </View>
+                                <View style={{marginTop: 10}} >
+                                    { props.error ? errorView : null }
+                                </View>
+                                <TouchableOpacity   onPress={ props.isSpinner ? null : props.loginHandler } >
+                                    <View style={styles.loginButton} >
+                                        {
+                                            props.isSpinner ? <ActivityIndicator size='small' color='white' /> : <Text style={{color: 'white', fontSize: 25, fontWeight: 'bold'}}> Login </Text>
+                                        }
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity   onPress={ props.isSpinner ? null : props.navigation.goBack } >
+                                    <View style={styles.cancelButton} >
+                                        {
+                                            props.isSpinner ? <ActivityIndicator size='small' color='black' /> : <Text style={{color: 'black', fontSize: 20, fontWeight: 'bold'}}> Cancel </Text>
+                                        }
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{marginTop: 15}} >  
+                                <View style={{flexDirection: 'row'}}>
+                                    <Text style={{ fontSize: 13 }}> Do not have an account? - </Text>
+                                    <TouchableOpacity onPress={() => props.navigation.navigate('Register')} >
+                                        <Text style={{fontSize: 13, color: 'black', fontWeight: 'bold'}} > register </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </View>
     )
 }
@@ -79,16 +97,21 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 5
+        padding: 5,
+        backgroundColor: 'white'
     },
-    upperBody: {
+    innerContainer: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end'
+    },  
+    upperBody: {
+        flex: 2,
+        justifyContent: 'space-around',
         alignItems: 'center',
         marginTop: 50
     },
     lowerBody: {
-        flex: 2
+        flex: 3
     },
     label: {
         fontSize: 16,
@@ -106,6 +129,17 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderRadius: 2,
         backgroundColor: 'black',
+        borderWidth: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        height: 50,
+        width: 'auto',
+    },
+    cancelButton: {
+        borderColor: 'black',
+        borderRadius: 2,
+        backgroundColor: 'white',
         borderWidth: 2,
         alignItems: 'center',
         justifyContent: 'center',

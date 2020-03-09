@@ -48,7 +48,8 @@ const Feed = () => {
     const flatList = <>
         <FlatList data={postings}
                   renderItem={({item}) => (
-            <PostingFeed postingData={item} />
+            <PostingFeed postingData={item} 
+                  keyExtractor={item.id} />
         )} />
     </>
 
