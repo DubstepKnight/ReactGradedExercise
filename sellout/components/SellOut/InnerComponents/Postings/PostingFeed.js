@@ -7,7 +7,7 @@ import { StyleSheet,
 
 const PostingFeed = (props) => {
 
-    console.log("posting feed props: ",  props.postingData);
+    // console.log("posting feed props: ",  props.postingData);
     // console.log('posting image: ', props.postingData.images[0]);
 
     // props.navigation.navigate('posting', {
@@ -23,16 +23,14 @@ const PostingFeed = (props) => {
             } )} >
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
-                    <Image source={{uri: `https://sell-0ut.herokuapp.com/public/uploads/${props.postingData.images[0]}`}}
+                    <Image source={{uri: `${props.postingData.images[0]}`}}
                         style={styles.image} />
                 </View>
-                <View>
-                    <Text style={{fontWeight: 'bold', fontSize: 20}} > {props.postingData.title} </Text>
-                    <Text> {props.postingData.category} </Text>
-                    <Text> {props.postingData.price} euros </Text>
-                    <Text> Delivery type:  {props.postingData.deliveryType} </Text>
-                    <Text> Location: {props.postingData.location} </Text>
-                    <Text> Posted: {props.postingData.dateOfPosting.substring(0, 10)} </Text>
+                <View style={{paddingLeft: 5}}>
+                    <Text style={{fontWeight: 'bold', fontSize: 20}} >{props.postingData.title}</Text>
+                    <Text style={{fontSize: 18}} >{props.postingData.price} euros </Text>
+                    <Text style={{color: 'gray', fontSize: 14}} >{props.postingData.category} </Text> 
+                    <Text>{props.postingData.location} </Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -54,6 +52,6 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 120,
-        height: 100
+        height: 105
     }
 })

@@ -20,7 +20,7 @@ const Feed = (props) => {
 
     const useEffectStopper = [0];
 
-    console.log('feed: ',  props);
+    // console.log('feed: ',  props);
 
     useEffect(() => {
         axios.get('https://sell-0ut.herokuapp.com/v1/postings/').then(res => {

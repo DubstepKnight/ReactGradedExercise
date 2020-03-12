@@ -69,7 +69,7 @@ const Header = (props) => {
     }
 
     const postingCreate = () => {
-        // props.navigat
+        props.createPosting();
         console.log('create posting has been pressed');
     }
 

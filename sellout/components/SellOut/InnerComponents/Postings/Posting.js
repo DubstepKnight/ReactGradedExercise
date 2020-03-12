@@ -11,21 +11,28 @@ const Posting = ({route, navigation}) => {
 
     console.log('posting props: ',  route.params);
 
-    const images = [
-        `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[0]}`,
-        `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[1]}`,
-        `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[2]}`,
-        `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[3]}`
-    ];
+    // const images = [
+    //     route.params.images[0],
+    //     route.params.images[1],
+    //     route.params.images[2],
+    //     route.params.images[3]
+    // ];
+    const images = route.params.images.map(image => image);
 
     const width = 250;
 
     return (
         <ScrollView style={styles.container} >
             <View style={styles.imagesContainer} >
-                {/* <Image source={{uri: `https://sell-0ut.herokuapp.com/public/uploads/${route.params.images[0]}`}}
-                    style={styles.image} /> */}
-                    <SliderBox images={images} />
+                <SliderBox images={images}
+                            dotColor='black'
+                            inactiveDotColor='white'
+                            ImageComponentStyle={styles.image}
+                            imageLoadingColor='black'
+                            dotStyle={{
+                                width: 30,
+                                marginTop: 20
+                            }} />
             </View>
             <View>
 
@@ -64,14 +71,15 @@ export default Posting
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 5
+        padding: 5,
+        marginTop: 15
     },
     imagesContainer: {
-        borderWidth: 4,
-        borderColor: 'black'
+        // borderWidth: 4,
+        // borderColor: 'black'
     },
     image: {
-        width: 250,
+        width: 300,
         height: 250
     },
     oneRow: {
