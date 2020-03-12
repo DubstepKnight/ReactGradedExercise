@@ -35,7 +35,6 @@ const CreatePosting = (props) => {
     const sellerTelephoneNumberRef = useRef();
 
     // Picks an image
-    let severalImages = [];
     const pickImage = async () => {
 
         // Permission to get an image
@@ -45,37 +44,36 @@ const CreatePosting = (props) => {
           return;
         }
 
-        if ( severalImages.length != 4) {
+        if ( images && images.length != 4) {
+            let severalImages = [...images];
             let image = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All
             });
             console.log('image: ', image);
             severalImages.push(image);
+            setImages(severalImages);
+            console.log('images: ',  images);
         } else {
-            console.log('You can only pick 4 images');
+            // console.log('You can only pick 4 images');
+            alert('You can only select 4 photos, no more than that');
         }
     }
 
     // const fileNameSplit = pickerResult.uri.split('/');
-    const fileName = fileNameSplit[fileNameSplit.length - 1];
+    // const fileName = fileNameSplit[fileNameSplit.length - 1];
 
     let postForm = new FormData();
-    postForm.append('myFiles', {
-      uri: pickerResult.uri,
-      name: fileName,
-      type: 'image/jpeg'
-    });
+    // postForm.append('myFiles', {
+    //   uri: pickerResult.uri,
+    //   name: fileName,
+    //   type: 'image/jpeg'
+    // });
     postForm.append('foo', 'bar');
 
     // create posting function that sends the request to backend
     const createHandler = () => {
         console.log('the posting has been created');
     }
-   
-    
-    
-
-    const fileName = fileNameSplit[fileNameSplit.length - 1];
 
     const deliverySetterHandler = () => {
         console.log('switch has been turned');
@@ -85,6 +83,8 @@ const CreatePosting = (props) => {
             setIsDelivery(true);
         }
     }
+
+    console.log("images: ", images);
 
 
 
@@ -147,6 +147,9 @@ const CreatePosting = (props) => {
                         <Text style={{fontSize: 18, color: 'white'}} > Pick images </Text>
                     </View>
                 </TouchableOpacity>
+                <View>
+                    { images ? images.map(image => <Image source={image.uri} style={{width: 50, height: 50, backgroundColor: 'blue'}} /> ) : null }
+                </View>
                 <View>
                     <Image />
                 </View>
