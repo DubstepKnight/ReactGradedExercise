@@ -7,6 +7,8 @@ import { StyleSheet,
          TouchableOpacity,
          Switch,
          View } from 'react-native';
+import axios from 'axios';
+import qs from 'qs';
 import * as ImagePicker from 'expo-image-picker';
 
 
@@ -19,6 +21,7 @@ const CreatePosting = (props) => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [location, setLocation] = useState('');
     const [isDelivery, setIsDelivery] = useState(false);
     const [deliveryType, setDeliveryType] = useState('');
     const [images, setImages] = useState();
@@ -49,12 +52,28 @@ const CreatePosting = (props) => {
             let image = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All
             });
-            console.log('image: ', image);
-            severalImages.push(image);
-            setImages(severalImages);
-            console.log('images: ',  images);
+            if (image.cancelled) {
+                console.log('image get was cancelled');
+            } else {
+                console.log('image: ', image);
+                severalImages.push(image);
+                setImages(severalImages);
+                console.log('images: ',  images);
+            }
+        } else if ( !images ) {
+            let severalImages = [];
+            let image = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All
+            });
+            if ( image.cancelled) {
+                console.log('image get was cancelled');
+            } else {
+                console.log('image: ', image);
+                severalImages.push(image);
+                setImages(severalImages);
+                console.log('images: ',  images);
+            }
         } else {
-            // console.log('You can only pick 4 images');
             alert('You can only select 4 photos, no more than that');
         }
     }
@@ -62,18 +81,48 @@ const CreatePosting = (props) => {
     // const fileNameSplit = pickerResult.uri.split('/');
     // const fileName = fileNameSplit[fileNameSplit.length - 1];
 
-    let postForm = new FormData();
+    // let postForm = new FormData();
     // postForm.append('myFiles', {
     //   uri: pickerResult.uri,
     //   name: fileName,
     //   type: 'image/jpeg'
     // });
-    postForm.append('foo', 'bar');
+    // postForm.append('foo', 'bar');
+
+   
 
     // create posting function that sends the request to backend
     const createHandler = () => {
+        let formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("category", category);
+        formData.append("location", location);
+        for (let i=0; i < images.length; i++) {
+            formData.append("images", {
+                uri: images[i].uri,
+                type: 'image/jpeg'
+            });
+        }
+        formData.append("price", price);
+        formData.append("deliveryType", deliveryType);
+        formData.append("sellerName", sellerName);
+        formData.append("sellerTelephoneNumber", sellerTelephoneNumber);
         console.log('the posting has been created');
+        console.log('formData: ', formData);
+
+        axios.post('https://sell-0ut.herokuapp.com/v1/postings/',{
+            headers: {
+                "Authorization": `Bearer ${props.jwt}`
+            }
+        }, formData ).then(res => {
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        })     
     }
+
+    console.log('create posting props: ',  props.jwt);
 
     const deliverySetterHandler = () => {
         console.log('switch has been turned');
@@ -147,8 +196,8 @@ const CreatePosting = (props) => {
                         <Text style={{fontSize: 18, color: 'white'}} > Pick images </Text>
                     </View>
                 </TouchableOpacity>
-                <View>
-                    { images ? images.map(image => <Image source={image.uri} style={{width: 50, height: 50, backgroundColor: 'blue'}} /> ) : null }
+                <View style={styles.pickedImages} >
+                    { images ? images.map(image => <Image source={{uri: image.uri}} style={styles.pickerImage} /> ) : null }
                 </View>
                 <View>
                     <Image />
@@ -207,6 +256,18 @@ const styles = StyleSheet.create({
     image: {
         width: 300,
         height: 250
+    },
+    pickedImages: {
+        flexDirection: 'row',
+        marginTop: 10,
+        marginBottom: 10,
+        // justifyContent: 'space-between'
+    },
+    pickerImage: {
+        width: 75, 
+        height: 75, 
+        backgroundColor: 'blue',
+        marginLeft: 2
     },
     oneRow: {
         flex: 1,

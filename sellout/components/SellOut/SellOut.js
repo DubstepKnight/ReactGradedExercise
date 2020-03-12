@@ -88,26 +88,26 @@ const TabNavigation = (tabProps) => {
     )
 }
     
-    // console.log('sellout props: ', props);
+    console.log('sellout props: ', props);
 
     return (
         // <View style={{flex: 1, backgrdounColor: 'red'}} >
             <Stack.Navigator>
                 <Stack.Screen name='tabs'
                               options={{headerShown: false}} >
-                    {props => <TabNavigation {...props} />}
+                    {stackProps => <TabNavigation {...stackProps} />}
                 </Stack.Screen>
                 <Stack.Screen name='posting'
                               options={{headerShown: false}} >
-                    {props => <Posting {...props} /> }
+                    {stackProps => <Posting {...stackProps} /> }
                 </Stack.Screen>
                 <Stack.Screen name='auth'
                               options={{headerShown: false}} >
-                    {props => <Auth {...props} /> }
+                    {stackProps => <Auth {...stackProps} /> }
                 </Stack.Screen>
                 <Stack.Screen name='createPosting'
                               options={{headerShown: false}} >
-                    {props => <CreatePosting {...props} /> }
+                    {stackProps => <CreatePosting jwt={props.jwt} {...stackProps} /> }
                 </Stack.Screen>
             </Stack.Navigator>
         // </View> 
