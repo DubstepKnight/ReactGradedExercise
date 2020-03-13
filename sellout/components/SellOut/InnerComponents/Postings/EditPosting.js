@@ -16,19 +16,19 @@ import * as ImagePicker from 'expo-image-picker';
 
 const EditPosting = (props) => {
 
-    console.log("edit posting: ", props.route.params.id);
+    console.log("edit posting: ", props.route.params);
 
     // useStates for storing data
-    const [title, setTitle] = useState('');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [location, setLocation] = useState('');
+    const [title, setTitle] = useState(props.route.params.title);
+    const [price, setPrice] = useState(props.route.params.price);
+    const [description, setDescription] = useState(props.route.params.description);
+    const [category, setCategory] = useState(props.route.params.category);
+    const [location, setLocation] = useState(props.route.params.location);
     const [isDelivery, setIsDelivery] = useState(false);
     const [deliveryType, setDeliveryType] = useState('');
     const [images, setImages] = useState();
-    const [sellerName, setSellerName] = useState('');
-    const [sellerTelephoneNumber, setSellerTelephoneNumber] = useState('');
+    const [sellerName, setSellerName] = useState(props.route.params.sellerName);
+    const [sellerTelephoneNumber, setSellerTelephoneNumber] = useState(props.route.params.sellerTelephoneNumber);
 
     // useStates for different purposes
     const [isFetching, setIsFetching] = useState(false);
@@ -93,10 +93,14 @@ const EditPosting = (props) => {
         formData.append("location", location);
         if ( images ) {
             for (let i=0; i < images.length; i++) {
+                const fileNameSplit = images[i].uri.split('/');
+                const fileName = fileNameSplit[fileNameSplit.length - 1];
+
                 formData.append("images", {
                     uri: images[i].uri,
-                    type: 'image/jpeg'
-                }, `image${i}` );
+                    name: fileName,
+                    type: 'image'
+                } );
             }
         }
         formData.append("price", price);
@@ -107,7 +111,7 @@ const EditPosting = (props) => {
         console.log('the posting has been created');
         console.log('formData: ', formData);
 
-        axios.post('https://sell-0ut.herokuapp.com/v1/postings/', formData, {
+        axios.put(`https://sell-0ut.herokuapp.com/v1/postings/${props.route.params.id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': `Bearer ${props.jwt}`
@@ -183,6 +187,7 @@ const EditPosting = (props) => {
                     <TextInput  placeholder='Title'
                                 returnKeyType='next'
                                 style={styles.inputBox}
+                                defaultValue={props.route.params.title}
                                 onSubmitEditing={() => categoryRef.current.focus() }
                                 onChangeText={(value) =>  setTitle(value)} />
                 </View>
@@ -191,6 +196,7 @@ const EditPosting = (props) => {
                     <TextInput  placeholder='Title'
                                 returnKeyType='next'
                                 style={styles.inputBox}
+                                defaultValue={props.route.params.category}
                                 ref={categoryRef}
                                 onSubmitEditing={() => priceRef.current.focus() }
                                 onChangeText={(value) =>  setCategory(value)} />
@@ -200,6 +206,7 @@ const EditPosting = (props) => {
                     <TextInput  placeholder='Price'
                                 returnKeyType='next'
                                 style={styles.inputBox}
+                                defaultValue={props.route.params.price}
                                 ref={priceRef}
                                 onSubmitEditing={() => descriptionRef.current.focus() }
                                 onChangeText={(value) =>  setPrice(value)} />
@@ -209,6 +216,7 @@ const EditPosting = (props) => {
                     <TextInput  placeholder='Description'
                                 returnKeyType='next'
                                 style={styles.inputBox}
+                                defaultValue={props.route.params.description}
                                 ref={descriptionRef}
                                 onSubmitEditing={() => locationRef.current.focus() }
                                 onChangeText={(value) =>  setDescription(value)} />
@@ -218,6 +226,7 @@ const EditPosting = (props) => {
                     <TextInput  placeholder='Location'
                                 returnKeyType='next'
                                 style={styles.inputBox}
+                                defaultValue={props.route.params.location}
                                 ref={locationRef}
                                 onSubmitEditing={() => priceRef.current.focus() }
                                 onChangeText={(value) =>  setLocation(value)} />
@@ -243,15 +252,16 @@ const EditPosting = (props) => {
                     { images ? images.map(image => <Image source={{uri: image.uri}} style={styles.pickerImage} /> ) : null }
                 </View>
                 <View>
-                    <Image />
+                    <Text> You cannot edit images, for now </Text>
                 </View>
                 <View>
-                    <Text> Info on you </Text>
+                    <Text style={styles.label} > Info on you </Text>
                     <View style={styles.regularRow} >
                         <Text style={styles.label} > Your name </Text>
                         <TextInput placeholder='Your name'
                                     returnKeyType='next'
                                     style={styles.inputBox}
+                                    defaultValue={props.route.params.sellerName}
                                     onSubmitEditing={() => priceRef.current.focus() }
                                     onChangeText={(value) =>  setSellerName(value)} />
                     </View>
@@ -260,6 +270,7 @@ const EditPosting = (props) => {
                         <TextInput placeholder='Your telephone number'
                                     returnKeyType='next'
                                     style={styles.inputBox}
+                                    defaultValue={props.route.params.sellerTelephoneNumber}
                                     onSubmitEditing={() => priceRef.current.focus() }
                                     onChangeText={(value) =>  setSellerTelephoneNumber(value)} />
                     </View>

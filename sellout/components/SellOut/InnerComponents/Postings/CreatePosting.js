@@ -55,9 +55,6 @@ const CreatePosting = (props) => {
             let image = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All
             });
-            // const fileNameSplit = image.uri.split('/');
-            // const fileName = fileNameSplit[fileNameSplit.length - 1];
-            
             if (image.cancelled) {
                 console.log('image get was cancelled');
             } else {
@@ -71,8 +68,6 @@ const CreatePosting = (props) => {
             let image = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All
             });
-            // const fileNameSplit = image.uri.split('/');
-            // const fileName = fileNameSplit[fileNameSplit.length - 1];
             if ( image.cancelled) {
                 console.log('image get was cancelled');
             } else {
@@ -101,12 +96,10 @@ const CreatePosting = (props) => {
                 formData.append("images", {
                     uri: images[i].uri,
                     name: fileName,
-                    type: 'image/jpeg'
+                    type: 'image'
                 } );
             }
         }
-        // let imageLinks = images.map(image => UploadImages(image));
-        // console.log('imageLinks: ', imageLinks);
         formData.append("price", price);
         formData.append("deliveryType", deliveryType);
         formData.append("sellerId", sellerName);
@@ -115,31 +108,16 @@ const CreatePosting = (props) => {
         console.log('the posting has been created');
         console.log('formData: ', formData);
 
-        // axios.post('https://sell-0ut.herokuapp.com/v1/postings/', formData, {
-        // // axios.post('http://localhost:5001/v1/postings/', {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //         'Authorization': `Bearer ${props.jwt}`
-        //     }
-        // }).then(res => {
-        //     console.log(res);
-        // }).catch(error => {
-        //     console.log(error);
-        // })     
-        fetch('https://sell-0ut.herokuapp.com/v1/postings/', {
-            method: 'POST',
-            mode: 'cors',
+        axios.post('https://sell-0ut.herokuapp.com/v1/postings/', formData, {
             headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': `Bearer ${props.jwt}`
-            },
-            body: formData
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${props.jwt}`
+            }
         }).then(res => {
-            // console.log(res);
+            console.log(res);
         }).catch(error => {
-            // console.log(error);
-        })
-
+            console.log(error);
+        })     
     }
 
     console.log('create posting props: ',  props.jwt);
