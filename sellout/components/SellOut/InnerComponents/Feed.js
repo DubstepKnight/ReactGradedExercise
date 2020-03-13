@@ -44,18 +44,6 @@ const Feed = (props) => {
         })
     }
 
-    const FeedItself = () => {
-
-        return (
-            <View style={styles.container}>
-                <View style={styles.feed} >
-                    { isFetching ? <ActivityIndicator color='black' size='large' style={{flex: 1}} /> : flatList }
-                </View>
-            </View>
-        )
-    } 
-
-
     const flatList = <>
         <FlatList data={postings}
                   style={{padding: 5}}
@@ -91,7 +79,5 @@ const styles = StyleSheet.create({
     },
     feed: {
         flex: 10,
-        // marginLeft: 5,
-        // marginTop: 5,
     }
 })

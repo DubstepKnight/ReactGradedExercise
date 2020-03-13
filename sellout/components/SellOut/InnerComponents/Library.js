@@ -32,24 +32,27 @@ const Library = (props) => {
         })
     }, useEffectStopper)
 
-    console.log('postings library: 2', postings);
-
-    const FeedItself = () => {
-
-        // console.log('nyah!');
-
-        return (
-            <View style={styles.container}>
-                <View style={styles.feed} >
-                    { isFetching ? <ActivityIndicator color='black' size='large' style={{flex: 1}} /> : flatList }
-                </View>
-            </View>
-        )
-    } 
+    const refreshFeed = () => {
+        setIsFetching(true);
+        axios.get('https://sell-0ut.herokuapp.com/v1/postings/seller', {
+            headers: {
+                Authorization : `Bearer ${props.jwt}`
+            }
+        }).then(res => {
+            console.log(res.data);
+            setPostings(res.data);
+            setIsFetching(false);
+        }).catch(err => {
+            console.log(err);
+            setIsFetching(false);
+        })
+    }
 
     const flatList = <>
         <FlatList data={postings}
                 style={{padding: 5}}
+                onRefresh={() => refreshFeed()}
+                refreshing={isFetching}
                 renderItem={({item}) => (
             <PostingFeed postingData={item} 
                 keyExtractor={item.id}
