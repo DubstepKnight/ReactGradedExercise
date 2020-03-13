@@ -34,33 +34,40 @@ const Posting = ({route, navigation}) => {
                                 marginTop: 20
                             }} />
             </View>
-            <View>
-
-            </View>
-            <View>
+            <View style={{padding: 5}} >
                 <View style={styles.oneRow} >
-                    <Text> {route.params.title} </Text>
-                    <Text> {route.params.price}€  </Text>
+                    <Text style={{fontSize: 24, fontWeight: 'bold'}} >{route.params.title}</Text>
                 </View>
-                <View>
-                    <Text> {route.params.category} </Text>
+                <View style={{marginTop: 5}} >
+                    <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10}} >{route.params.price}€</Text>
+                    <Text >{route.params.category}</Text>
                 </View>
                 <View style={styles.oneRow} >
-                    <Text> {route.params.location} </Text>
-                    <Text> {route.params.dateOfPosting.substring(0, 10)} </Text>
+                    <Text>{route.params.location}</Text>
+                    <Text>{route.params.dateOfPosting.substring(0, 10)}</Text>
                 </View>
-                <View>
-                    <Text> {route.params.description} </Text>
+                <View style={{marginTop: 20,}} >
+                    <Text style={{ fontStyle: 'italic' }} >{route.params.description}</Text>
                 </View>
-                <View >
-                    <Text> {route.params.sellerName} </Text>
-                    <Text> {route.params.sellerTelephoneNumber} </Text>
+                <View style={{marginTop: 10}} >
+                    <Text>{route.params.sellerName}</Text>
+                    <Text>{route.params.sellerTelephoneNumber}</Text>
                 </View>
             </View>
-            <View style={styles.goBack} >
-                <TouchableOpacity  onPress={() => navigation.goBack() } >
-                    <Text style={{fontSize: 18}} > Go back </Text>
-                </TouchableOpacity>
+            <View style={{padding: 5}} >
+                <View style={styles.goBack} >
+                    <TouchableOpacity  onPress={() => navigation.goBack() } >
+                        <Text style={{fontSize: 18}} > Go back </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.editButton} >
+                    <TouchableOpacity  onPress={() => navigation.navigate('editPosting', {
+                    title: route.params.title,
+                    ...route.params
+                }) } >
+                        <Text style={{fontSize: 18}} > Edit </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </ScrollView >
     )
@@ -71,15 +78,14 @@ export default Posting
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 5,
-        marginTop: 15
+        marginTop: 18
     },
     imagesContainer: {
         // borderWidth: 4,
         // borderColor: 'black'
     },
     image: {
-        width: 300,
+        // width: 300,
         height: 250
     },
     oneRow: {
@@ -89,8 +95,15 @@ const styles = StyleSheet.create({
     },
     goBack: {
         borderWidth: 2,
-        height: 30,
+        height: 40,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    editButton: {
+        borderWidth: 2,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10
     }
 })

@@ -1,28 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, 
          Text, 
+         Picker,
          FlatList,
-         View, 
-         ActivityIndicator} from 'react-native';
+         ActivityIndicator,
+         View } from 'react-native'
 import axios from 'axios';
-import Header from './Header';
-import Posting from './Postings/Posting';
-import PostingFeed from './Postings/PostingFeed';
 
-const Feed = (props) => {
+const Search = () => {
 
-    // Stack navigation stuff
-    // const Stack = createStackNavigator();
-
-    const [postings, setPostings] = useState();
+    const [currentFilter, setCurrentFilter] = useState('category');
+    const [searchValue, setSearchValue] = useState('');
     const [isFetching, setIsFetching] = useState(true);
-    
-    console.log('feed: ',  props);
-    
+    const [postings, setPostings] = useState('');
     const useEffectStopper = [0];
 
+    // Gets the data from the API
     useEffect(() => {
-        axios.get('https://sell-0ut.herokuapp.com/v1/postings/').then(res => {
+        axios.get(`https://sell-0ut.herokuapp.com/v1/postings/search/${currentFilter}/`, {
+            params: {
+                currentFilter: searchValue
+            }
+        }).then(res => {
             console.log(res.data);
             setPostings(res.data);
             setIsFetching(false);
@@ -32,20 +31,7 @@ const Feed = (props) => {
         })
     }, useEffectStopper)
 
-    const refreshFeed = () => {
-        setIsFetching(true);
-        axios.get('https://sell-0ut.herokuapp.com/v1/postings/').then(res => {
-            console.log(res.data);
-            setPostings(res.data);
-            setIsFetching(false);
-        }).catch(err => {
-            console.log(err);
-            setIsFetching(false);
-        })
-    }
-
     const FeedItself = () => {
-
         return (
             <View style={styles.container}>
                 <View style={styles.feed} >
@@ -54,7 +40,6 @@ const Feed = (props) => {
             </View>
         )
     } 
-
 
     const flatList = <>
         <FlatList data={postings}
@@ -73,25 +58,33 @@ const Feed = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.feed} >
+            <Picker 
+                selectedValue={currentFilter}
+                onValueChange={(value) => setCurrentFilter(value) }
+                mode='dropdown'
+                style={{flex: 1, height: 25, marginBottom: 15}} >
+                    <Picker.Item label='Category' value='category' />
+                    <Picker.Item label='Date' value='date' />
+                    <Picker.Item label='Location' value='location' />
+            </Picker>
+            {/* <View style={styles.feed} >
                 { isFetching ? <ActivityIndicator color='black' size='large' style={{flex: 1}} /> : flatList }
-            </View>
+            </View> */}
+            {/* <View style={styles.list} >
+                <Text> sdasdasdasdasd </Text>
+            </View> */}
         </View>
     )
 }
 
-export default Feed
+export default Search
 
 const styles = StyleSheet.create({
     container: {
-        flex: 9,
-        justifyContent: 'center',
+        flex: 1,
         backgroundColor: 'white'
-        // alignItems: 'center'
     },
-    feed: {
-        flex: 10,
-        // marginLeft: 5,
-        // marginTop: 5,
+    list: {
+        flex: 9
     }
 })

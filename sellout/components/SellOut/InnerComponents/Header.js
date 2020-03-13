@@ -4,10 +4,12 @@ import { StyleSheet,
          TouchableOpacity,
          Image,
          TextInput,
+         Picker,
          View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Auth from '../../auth/Auth';
 import loginIcon from '../../../assets/icons8_login_50px.png';
+import logoutIcon from '../../../assets/icons8_logout_rounded_left_50px_1.png';
 import { Ionicons } from 'react-native-vector-icons';
 
 const Stack = createStackNavigator();
@@ -15,17 +17,27 @@ const Stack = createStackNavigator();
 const Header = (props) => {
 
     const [isSearchBar, setIsSearchBar] = useState(false);
+    const [currentFilter, setCurrentFilter] = useState('SellOut!')
 
     console.log('header props: ', props.navigation.navigate);
 
     const searchNotActive = 
     <> 
         <View style={styles.searchIcon}>
-            <TouchableOpacity onPress={() => setIsSearchBar(true)} >
-                <Ionicons name='ios-search' 
-                            color='black' 
-                            size={35} />
-            </TouchableOpacity>
+            {
+                props.jwt === null ? ( 
+                    <TouchableOpacity onPress={loginCaller}>
+                        <Image source={loginIcon}
+                                style={{width: 33, height: 33 }} />
+                    </TouchableOpacity>
+                ) : (
+                    <TouchableOpacity onPress={() => setIsSearchBar(true)} >
+                       <Image source={logoutIcon}
+                                style={{width: 33, height: 33 }} />
+                    </TouchableOpacity>
+                ) 
+            }
+            
         </View>
         <View style={styles.logo} >
             <Text style={{fontSize: 30}} > SellOut! </Text>
@@ -46,18 +58,9 @@ const Header = (props) => {
         <View style={styles.container}>
             { isSearchBar ? searchActive : searchNotActive }
             <View style={styles.addButton, {marginRight: 10}} >
-                    {
-                        props.jwt === null ? ( 
-                            <TouchableOpacity onPress={loginCaller}>
-                                <Image source={loginIcon}
-                                       style={{width: 33, height: 33 }} />
-                            </TouchableOpacity>
-                            ) : (
-                            <TouchableOpacity onPress={postingCreate} > 
-                                <Ionicons name='ios-add' color='black' size={45} style={{marginBottom: 0}} />
-                            </TouchableOpacity>
-                        ) 
-                    }
+                <TouchableOpacity onPress={postingCreate} > 
+                    <Ionicons name='ios-add' color='black' size={45} style={{marginBottom: 0}} />
+                </TouchableOpacity>
             </View>
             { props.jwt === null ? <Auth  /> : null }
         </View>
@@ -69,8 +72,12 @@ const Header = (props) => {
     }
 
     const postingCreate = () => {
-        props.createPosting();
-        console.log('create posting has been pressed');
+        if ( props.jwt === null ) {
+            props.navigateToAuth();
+        } else {
+            props.createPosting();
+            console.log('create posting has been pressed');
+        }
     }
 
     // this.state.jwt === null ? <Auth jwtCatcher={this.jwtCatcher} />

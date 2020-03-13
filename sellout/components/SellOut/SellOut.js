@@ -4,13 +4,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import { Ionicons } from 'react-native-vector-icons';
+import { Ionicons, AntDesign } from 'react-native-vector-icons';
 
 // components
 import Header from './InnerComponents/Header';
 import Feed from './InnerComponents/Feed';
+import Search from './InnerComponents/Search';
 import Library from './InnerComponents/Library';
 import CreatePosting from './InnerComponents/Postings/CreatePosting';
+import EditPosting from './InnerComponents/Postings/EditPosting';
 import Auth  from '../auth/Auth';
 import Posting from './InnerComponents/Postings/Posting';
 
@@ -75,6 +77,14 @@ const TabNavigation = (tabProps) => {
                         }} >
                 { props => <Feed style={styles.Feed} {...props} jwt={tabProps.jwt}  /> }
             </Tab.Screen>
+            <Tab.Screen name='Search'
+                        options={{
+                            tabBarIcon: () => (
+                                <Ionicons name='ios-search' color='black' size={25} />
+                            )
+                        }} >
+                { props => <Search style={styles.Feed} {...props} jwt={tabProps.jwt}  /> }
+            </Tab.Screen>
             <Tab.Screen name='Library'
                         options={{
                             tabBarIcon: () => (
@@ -108,6 +118,10 @@ const TabNavigation = (tabProps) => {
                 <Stack.Screen name='createPosting'
                               options={{headerShown: false}} >
                     {stackProps => <CreatePosting jwt={props.jwt} {...stackProps} /> }
+                </Stack.Screen>
+                <Stack.Screen name='editPosting'
+                              options={{headerShown: false}} >
+                    {stackProps => <EditPosting jwt={props.jwt} {...stackProps} /> }
                 </Stack.Screen>
             </Stack.Navigator>
         // </View> 

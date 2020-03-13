@@ -8,7 +8,7 @@ import { StyleSheet,
          Switch,
          View } from 'react-native';
 import axios from 'axios';
-import UploadImages from './UploadImages';
+// import UploadImages from './UploadImages';
 import * as ImagePicker from 'expo-image-picker';
 
 
@@ -90,10 +90,11 @@ const CreatePosting = (props) => {
                 formData.append("images", {
                     uri: images[i].uri,
                     type: 'image/jpeg'
-                });
+                }, `image${i}` );
             }
         }
-        // UploadImages(images);
+        // let imageLinks = images.map(image => UploadImages(image));
+        // console.log('imageLinks: ', imageLinks);
         formData.append("price", price);
         formData.append("deliveryType", deliveryType);
         formData.append("sellerId", sellerName);
@@ -134,47 +135,52 @@ const CreatePosting = (props) => {
     return (
         <ScrollView style={styles.container} >
             <View>
-                <View>
-                <Text> Title </Text>
-                <TextInput  placeholder='Title'
-                            returnKeyType='next'
-                            onSubmitEditing={() => categoryRef.current.focus() }
-                            onChangeText={(value) =>  setTitle(value)} />
-                </View>
-                <View style={styles.oneRow} >
-                    <Text> Category </Text>
+                <View style={styles.regularRow} >
+                    <Text style={styles.label} > Title </Text>
                     <TextInput  placeholder='Title'
                                 returnKeyType='next'
+                                style={styles.inputBox}
+                                onSubmitEditing={() => categoryRef.current.focus() }
+                                onChangeText={(value) =>  setTitle(value)} />
+                </View>
+                <View style={styles.regularRow} >
+                    <Text style={styles.label} > Category </Text>
+                    <TextInput  placeholder='Title'
+                                returnKeyType='next'
+                                style={styles.inputBox}
                                 ref={categoryRef}
                                 onSubmitEditing={() => priceRef.current.focus() }
                                 onChangeText={(value) =>  setCategory(value)} />
                 </View>
-                <View>
-                    <Text> Price </Text>
+                <View style={styles.regularRow} >
+                    <Text style={styles.label} > Price </Text>
                     <TextInput  placeholder='Price'
                                 returnKeyType='next'
+                                style={styles.inputBox}
                                 ref={priceRef}
                                 onSubmitEditing={() => descriptionRef.current.focus() }
                                 onChangeText={(value) =>  setPrice(value)} />
                 </View>
-                <View style={styles.oneRow} >
-                    <Text> Description </Text>
+                <View style={styles.regularRow} >
+                    <Text style={styles.label} > Description </Text>
                     <TextInput  placeholder='Description'
                                 returnKeyType='next'
+                                style={styles.inputBox}
                                 ref={descriptionRef}
                                 onSubmitEditing={() => locationRef.current.focus() }
                                 onChangeText={(value) =>  setDescription(value)} />
                 </View>
-                <View>
-                    <Text> Location </Text>
+                <View style={styles.regularRow} >
+                    <Text style={styles.label} > Location </Text>
                     <TextInput  placeholder='Location'
                                 returnKeyType='next'
+                                style={styles.inputBox}
                                 ref={locationRef}
                                 onSubmitEditing={() => priceRef.current.focus() }
                                 onChangeText={(value) =>  setLocation(value)} />
                 </View>
                 <View >
-                    <Text> Delivery type </Text>
+                    <Text style={styles.label} > Delivery type </Text>
                     <View style={styles.deliveryChoice}>
                         <Text style={{fontSize: 18} [isDelivery ? styles.chosenType : styles.nonChosenType] } > Pick Up </Text>
                         <Switch onChange={deliverySetterHandler}
@@ -197,18 +203,20 @@ const CreatePosting = (props) => {
                     <Image />
                 </View>
                 <View>
-                    <Text> Info on you </Text>
+                    <Text style={styles.label} > Info on you </Text>
                     <View >
-                        <Text> Your name </Text>
+                        <Text style={styles.label} > Your name </Text>
                         <TextInput placeholder='Your name'
                                     returnKeyType='next'
+                                    style={styles.inputBox}
                                     onSubmitEditing={() => priceRef.current.focus() }
                                     onChangeText={(value) =>  setSellerName(value)} />
                     </View>
                     <View >
-                        <Text> Your telephone number </Text>
+                        <Text style={styles.label} > Your telephone number </Text>
                         <TextInput placeholder='Your telephone number'
                                     returnKeyType='next'
+                                    style={styles.inputBox}
                                     onSubmitEditing={() => priceRef.current.focus() }
                                     onChangeText={(value) =>  setSellerTelephoneNumber(value)} />
                     </View>
@@ -216,7 +224,7 @@ const CreatePosting = (props) => {
             </View>
             <TouchableOpacity  onPress={() => props.navigation.goBack() } >
                 <View style={styles.goBack} >
-                    <Text style={{fontSize: 18}} > Go back </Text>
+                    <Text style={{fontSize: 18, color: 'white'}} > Go back </Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity  onPress={() =>createHandler() } >
@@ -228,13 +236,17 @@ const CreatePosting = (props) => {
     )
 }
 
-export default CreatePosting
+export default CreatePosting;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 5,
         marginTop: 15
+    },
+    regularRow: {
+        marginTop: 5,
+        marginBottom: 5
     },
     pickImageButton: {
         height: 40,
@@ -244,8 +256,15 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     label: {
-        fontSize: 20,
-        fontWeight: 'bold'
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    inputBox: {
+        borderWidth: 2,
+        borderRadius: 5,
+        borderColor: 'black',
+        padding: 5
     },
     image: {
         width: 300,
@@ -286,12 +305,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'green',
-        marginTop: 10
+        marginTop: 10,
+        marginBottom: 10
     },  
     goBack: {
         borderWidth: 2,
-        height: 30,
+        backgroundColor: 'black',
+        height: 40,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 10,
     }
 })

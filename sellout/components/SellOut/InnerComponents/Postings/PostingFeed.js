@@ -26,7 +26,7 @@ const PostingFeed = (props) => {
                     <Image source={{uri: `${props.postingData.images[0]}`}}
                         style={styles.image} />
                 </View>
-                <View style={{paddingLeft: 5}}>
+                <View style={{paddingLeft: 5, justifyContent: 'space-around'}}>
                     <Text style={{fontWeight: 'bold', fontSize: 20}} >{props.postingData.title}</Text>
                     <Text style={{fontSize: 18}} >{props.postingData.price} euros </Text>
                     <Text style={{color: 'gray', fontSize: 14}} >{props.postingData.category} </Text> 
