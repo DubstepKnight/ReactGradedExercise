@@ -55,6 +55,9 @@ const CreatePosting = (props) => {
             let image = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All
             });
+            // const fileNameSplit = image.uri.split('/');
+            // const fileName = fileNameSplit[fileNameSplit.length - 1];
+            
             if (image.cancelled) {
                 console.log('image get was cancelled');
             } else {
@@ -68,6 +71,8 @@ const CreatePosting = (props) => {
             let image = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All
             });
+            // const fileNameSplit = image.uri.split('/');
+            // const fileName = fileNameSplit[fileNameSplit.length - 1];
             if ( image.cancelled) {
                 console.log('image get was cancelled');
             } else {
@@ -90,10 +95,14 @@ const CreatePosting = (props) => {
         formData.append("location", location);
         if ( images ) {
             for (let i=0; i < images.length; i++) {
+                const fileNameSplit = images[i].uri.split('/');
+                const fileName = fileNameSplit[fileNameSplit.length - 1];
+
                 formData.append("images", {
                     uri: images[i].uri,
+                    name: fileName,
                     type: 'image/jpeg'
-                }, `image${i}` );
+                } );
             }
         }
         // let imageLinks = images.map(image => UploadImages(image));
@@ -106,17 +115,30 @@ const CreatePosting = (props) => {
         console.log('the posting has been created');
         console.log('formData: ', formData);
 
-        axios.post('https://sell-0ut.herokuapp.com/v1/postings/', formData, {
-        // axios.post('http://localhost:5001/v1/postings/', {
+        // axios.post('https://sell-0ut.herokuapp.com/v1/postings/', formData, {
+        // // axios.post('http://localhost:5001/v1/postings/', {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //         'Authorization': `Bearer ${props.jwt}`
+        //     }
+        // }).then(res => {
+        //     console.log(res);
+        // }).catch(error => {
+        //     console.log(error);
+        // })     
+        fetch('https://sell-0ut.herokuapp.com/v1/postings/', {
+            method: 'POST',
+            mode: 'cors',
             headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${props.jwt}`
-            }
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${props.jwt}`
+            },
+            body: formData
         }).then(res => {
-            console.log(res);
+            // console.log(res);
         }).catch(error => {
-            console.log(error);
-        })     
+            // console.log(error);
+        })
 
     }
 
