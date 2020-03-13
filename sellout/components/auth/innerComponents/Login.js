@@ -31,7 +31,7 @@ const Login = (props) => {
                     <View style={styles.innerContainer}>
                         <View style={styles.upperBody}>
                             <Text style={{fontSize: 40 }} > SellOut! </Text>
-                            <Text style={{fontSize: 16 }} > sell anything, even yourself </Text>
+                            {/* <Text style={{fontSize: 16 }} > sell anything, even yourself </Text> */}
                             <Text style={{fontSize: 30 }} > Login </Text>
                         </View>
                         <View style={styles.lowerBody}>

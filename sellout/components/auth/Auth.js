@@ -56,14 +56,15 @@ const Auth = (props) => {
         setIsSpinner(true);
         axios.post(`https://sell-0ut.herokuapp.com/v1/users/register`, registerForm ).then(res => {
             console.log(res.data);
-            setRegistrationSuccess(true);
             setError(null);
             setIsSpinner(false);
+            setRegistrationSuccess(true);
         }).catch(error => {
             console.log(error);
             errorCatcher(error);
             setIsSpinner(false);
         })
+        // setIsSpinner(false);
     }
 
     return (

@@ -15,6 +15,8 @@ const Register = (props) => {
     const passwordRef = useRef();
     const emailRef = useRef();
 
+    console.log("register view: ", props);
+
     const errorView = <View style={{marginTop: 10}}>
         <Text style={{fontSize: 15, color: 'red'}} >
             The username, email and/or the password are incorrect!
@@ -22,9 +24,9 @@ const Register = (props) => {
     </View>
 
     // const onRegistrationSuccess = () => {
-        if ( props.registrationSuccess) {
-            props.navigation.navigate('SuccessfulRegistration');
-        }
+        // if ( props.registrationSuccess) {
+        //     props.navigation.navigate('SuccessfulRegistration');
+        // }
     // }
     console.log('updated');
 
@@ -35,7 +37,7 @@ const Register = (props) => {
                     <View style={styles.innerContainer}>
                         <View style={styles.upperBody}>
                             <Text style={{fontSize: 40 }} > SellOut! </Text>
-                            <Text style={{fontSize: 16 }} > sell anything, even yourself </Text>
+                            {/* <Text style={{fontSize: 16 }} > sell anything, even yourself </Text> */}
                             <Text style={{fontSize: 30 }} > Register </Text>
                         </View>
                         <View style={styles.lowerBody}>

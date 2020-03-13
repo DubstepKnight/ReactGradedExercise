@@ -31,7 +31,7 @@ const Header = (props) => {
                                 style={{width: 33, height: 33 }} />
                     </TouchableOpacity>
                 ) : (
-                    <TouchableOpacity onPress={() => props.logOuter} >
+                    <TouchableOpacity onPress={() => props.logOuter()} >
                        <Image source={logoutIcon}
                                 style={{width: 33, height: 33 }} />
                     </TouchableOpacity>

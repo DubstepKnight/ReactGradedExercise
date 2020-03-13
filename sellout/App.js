@@ -55,6 +55,7 @@ export default class App extends Component {
     SecureStore.deleteItemAsync(secureStoreTokenName)
       .then(response => {
         console.log('SecureStore.deleteItemAsync success');
+        console.log(response);
         this.setState({ jwt: null });
       })
       .catch(error => {
