@@ -50,6 +50,19 @@ export default class App extends Component {
       })    
   }
 
+  logOuter = () => {
+    console.log('logOut');
+    SecureStore.deleteItemAsync(secureStoreTokenName)
+      .then(response => {
+        console.log('SecureStore.deleteItemAsync success');
+        this.setState({ jwt: null });
+      })
+      .catch(error => {
+        console.log("SecureStore.deleteItemAsync fail");
+        console.log(error);
+      })
+  }
+
   render() {
     console.log(this.state);
     // console.log(this.state.jwt);
@@ -63,7 +76,7 @@ export default class App extends Component {
           {/* <Stack.Navigator>
             <Stack.Screen name='App'
                           options={{headerShown: false}} > */}
-              { this.state.isCheckingTokenStorage ? <ActivityIndicator style={{flex: 1}} color='black' size='large' /> : <SellOut jwt={this.state.jwt} jwtCatcher={this.jwtCatcher} userInfo={this.state.userInfo} /> }
+              { this.state.isCheckingTokenStorage ? <ActivityIndicator style={{flex: 1}} color='black' size='large' /> : <SellOut jwt={this.state.jwt} logOuter={this.logOuter} jwtCatcher={this.jwtCatcher} userInfo={this.state.userInfo} /> }
             {/* </Stack.Screen>
           </Stack.Navigator> */}
         </NavigationContainer>

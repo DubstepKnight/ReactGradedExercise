@@ -55,7 +55,7 @@ const TabNavigation = (tabProps) => {
 
     return (
         <>
-        <Header jwt={props.jwt} navigation={tabProps.navigation} createPosting={createPosting} navigateToAuth={navigateToAuth} style={styles.Header} />
+        <Header jwt={props.jwt} logOuter={props.logOuter} navigation={tabProps.navigation} createPosting={createPosting} navigateToAuth={navigateToAuth} style={styles.Header} />
         <Tab.Navigator tabBarOptions={{
             style: {
                 backgroundColor: '#fff',

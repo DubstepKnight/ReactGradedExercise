@@ -4,6 +4,9 @@ import { StyleSheet,
          Image,
          ScrollView,
          TextInput,
+         Keyboard,
+         KeyboardAvoidingView,
+         TouchableWithoutFeedback,
          TouchableOpacity,
          Switch,
          View } from 'react-native';
@@ -33,7 +36,7 @@ const CreatePosting = (props) => {
     const descriptionRef = useRef();
     const categoryRef = useRef();
     const locationRef = useRef();
-    const deliveryTypeRef = useRef();
+    // const deliveryTypeRef = useRef();
     const sellerNameRef = useRef();
     const sellerTelephoneNumberRef = useRef();
 
@@ -130,109 +133,117 @@ const CreatePosting = (props) => {
 
     console.log("images: ", images);
 
-
-
     return (
-        <ScrollView style={styles.container} >
-            <View>
-                <View style={styles.regularRow} >
-                    <Text style={styles.label} > Title </Text>
-                    <TextInput  placeholder='Title'
-                                returnKeyType='next'
-                                style={styles.inputBox}
-                                onSubmitEditing={() => categoryRef.current.focus() }
-                                onChangeText={(value) =>  setTitle(value)} />
-                </View>
-                <View style={styles.regularRow} >
-                    <Text style={styles.label} > Category </Text>
-                    <TextInput  placeholder='Title'
-                                returnKeyType='next'
-                                style={styles.inputBox}
-                                ref={categoryRef}
-                                onSubmitEditing={() => priceRef.current.focus() }
-                                onChangeText={(value) =>  setCategory(value)} />
-                </View>
-                <View style={styles.regularRow} >
-                    <Text style={styles.label} > Price </Text>
-                    <TextInput  placeholder='Price'
-                                returnKeyType='next'
-                                style={styles.inputBox}
-                                ref={priceRef}
-                                onSubmitEditing={() => descriptionRef.current.focus() }
-                                onChangeText={(value) =>  setPrice(value)} />
-                </View>
-                <View style={styles.regularRow} >
-                    <Text style={styles.label} > Description </Text>
-                    <TextInput  placeholder='Description'
-                                returnKeyType='next'
-                                style={styles.inputBox}
-                                ref={descriptionRef}
-                                onSubmitEditing={() => locationRef.current.focus() }
-                                onChangeText={(value) =>  setDescription(value)} />
-                </View>
-                <View style={styles.regularRow} >
-                    <Text style={styles.label} > Location </Text>
-                    <TextInput  placeholder='Location'
-                                returnKeyType='next'
-                                style={styles.inputBox}
-                                ref={locationRef}
-                                onSubmitEditing={() => priceRef.current.focus() }
-                                onChangeText={(value) =>  setLocation(value)} />
-                </View>
-                <View >
-                    <Text style={styles.label} > Delivery type </Text>
-                    <View style={styles.deliveryChoice}>
-                        <Text style={{fontSize: 18} [isDelivery ? styles.chosenType : styles.nonChosenType] } > Pick Up </Text>
-                        <Switch onChange={deliverySetterHandler}
-                                value={isDelivery}
-                                trackColor='blue'
-                                ios_backgroundColor='white' >
-                        </Switch>
-                        <Text style={{fontSize: 18} [isDelivery ? styles.chosenType : styles.nonChosenType] } > Delivery </Text>
-                    </View>
-                </View>
-                <TouchableOpacity  onPress={() => pickImage() } >
-                    <View style={styles.pickImageButton} >
-                        <Text style={{fontSize: 18, color: 'white'}} > Pick images </Text>
-                    </View>
-                </TouchableOpacity>
-                <View style={styles.pickedImages} >
-                    { images ? images.map(image => <Image source={{uri: image.uri}} style={styles.pickerImage} /> ) : null }
-                </View>
-                <View>
-                    <Image />
-                </View>
-                <View>
-                    <Text style={styles.label} > Info on you </Text>
-                    <View >
-                        <Text style={styles.label} > Your name </Text>
-                        <TextInput placeholder='Your name'
-                                    returnKeyType='next'
-                                    style={styles.inputBox}
-                                    onSubmitEditing={() => priceRef.current.focus() }
-                                    onChangeText={(value) =>  setSellerName(value)} />
-                    </View>
-                    <View >
-                        <Text style={styles.label} > Your telephone number </Text>
-                        <TextInput placeholder='Your telephone number'
-                                    returnKeyType='next'
-                                    style={styles.inputBox}
-                                    onSubmitEditing={() => priceRef.current.focus() }
-                                    onChangeText={(value) =>  setSellerTelephoneNumber(value)} />
-                    </View>
-                </View>
-            </View>
-            <TouchableOpacity  onPress={() => props.navigation.goBack() } >
-                <View style={styles.goBack} >
-                    <Text style={{fontSize: 18, color: 'white'}} > Go back </Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity  onPress={() =>createHandler() } >
-                <View style={styles.createButton} >
-                        <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}} > Create a posting </Text>
-                </View>
-            </TouchableOpacity>
-        </ScrollView >
+        <View style={styles.container} > 
+        <KeyboardAvoidingView behavior='padding' style={{flex: 1}} >
+            <ScrollView  >  
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <>
+                        <View>
+                            <View style={styles.regularRow} >
+                                <Text style={styles.label} > Title </Text>
+                                <TextInput  placeholder='Title'
+                                            returnKeyType='next'
+                                            style={styles.inputBox}
+                                            onSubmitEditing={() => categoryRef.current.focus() }
+                                            onChangeText={(value) =>  setTitle(value)} />
+                            </View>
+                            <View style={styles.regularRow} >
+                                <Text style={styles.label} > Category </Text>
+                                <TextInput  placeholder='Title'
+                                            returnKeyType='next'
+                                            style={styles.inputBox}
+                                            ref={categoryRef}
+                                            onSubmitEditing={() => priceRef.current.focus() }
+                                            onChangeText={(value) =>  setCategory(value)} />
+                            </View>
+                            <View style={styles.regularRow} >
+                                <Text style={styles.label} > Price </Text>
+                                <TextInput  placeholder='Price'
+                                            returnKeyType='next'
+                                            style={styles.inputBox}
+                                            ref={priceRef}
+                                            onSubmitEditing={() => descriptionRef.current.focus() }
+                                            onChangeText={(value) =>  setPrice(value)} />
+                            </View>
+                            <View style={styles.regularRow} >
+                                <Text style={styles.label} > Description </Text>
+                                <TextInput  placeholder='Description'
+                                            returnKeyType='next'
+                                            style={styles.inputBox}
+                                            ref={descriptionRef}
+                                            onSubmitEditing={() => locationRef.current.focus() }
+                                            onChangeText={(value) =>  setDescription(value)} />
+                            </View>
+                            <View style={styles.regularRow} >
+                                <Text style={styles.label} > Location </Text>
+                                <TextInput  placeholder='Location'
+                                            returnKeyType='next'
+                                            style={styles.inputBox}
+                                            ref={locationRef}
+                                            onSubmitEditing={() => sellerNameRef.current.focus() }
+                                            onChangeText={(value) =>  setLocation(value)} />
+                            </View>
+                            <View >
+                                <Text style={styles.label} > Delivery type </Text>
+                                <View style={styles.deliveryChoice}>
+                                    <Text style={{fontSize: 18} [isDelivery ? styles.chosenType : styles.nonChosenType] } > Pick Up </Text>
+                                    <Switch onChange={deliverySetterHandler}
+                                            value={isDelivery}
+                                            trackColor='blue'
+                                            ios_backgroundColor='white' >
+                                    </Switch>
+                                    <Text style={{fontSize: 18} [isDelivery ? styles.chosenType : styles.nonChosenType] } > Delivery </Text>
+                                </View>
+                            </View>
+                            <TouchableOpacity  onPress={() => pickImage() } >
+                                <View style={styles.pickImageButton} >
+                                    <Text style={{fontSize: 18, color: 'white'}} > Pick images </Text>
+                                </View>
+                            </TouchableOpacity>
+                            <View style={styles.pickedImages} >
+                                { images ? images.map(image => <Image source={{uri: image.uri}} style={styles.pickerImage} /> ) : null }
+                            </View>
+                            <View>
+                                <Image />
+                            </View>
+                            <View>
+                                <Text style={styles.label} > Info on you </Text>
+                                <View >
+                                    <Text style={styles.label} > Your name </Text>
+                                    <TextInput placeholder='Your name'
+                                                returnKeyType='next'
+                                                style={styles.inputBox}
+                                                ref={sellerNameRef}
+                                                onSubmitEditing={() => priceRef.current.focus() }
+                                                onChangeText={(value) =>  setSellerName(value)} />
+                                </View>
+                                <View >
+                                    <Text style={styles.label} > Your telephone number </Text>
+                                    <TextInput placeholder='Your telephone number'
+                                                returnKeyType='done'
+                                                style={styles.inputBox}
+                                                ref={sellerTelephoneNumberRef}
+                                                onSubmitEditing={() => createHandler() }
+                                                onChangeText={(value) =>  setSellerTelephoneNumber(value)} />
+                                </View>
+                            </View>
+                        </View>
+                        <TouchableOpacity  onPress={() => props.navigation.goBack() } >
+                            <View style={styles.goBack} >
+                                <Text style={{fontSize: 18, color: 'white'}} > Go back </Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity  onPress={() =>createHandler() } >
+                            <View style={styles.createButton} >
+                                    <Text style={{fontSize: 18, fontWeight: 'bold', color: 'white'}} > Create a posting </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </> 
+                </TouchableWithoutFeedback>
+            </ScrollView >
+        </KeyboardAvoidingView>
+        </View>
     )
 }
 

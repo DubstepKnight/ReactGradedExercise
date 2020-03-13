@@ -26,18 +26,17 @@ const Header = (props) => {
         <View style={styles.searchIcon}>
             {
                 props.jwt === null ? ( 
-                    <TouchableOpacity onPress={loginCaller}>
+                    <TouchableOpacity onPress={() => loginCaller()} >
                         <Image source={loginIcon}
                                 style={{width: 33, height: 33 }} />
                     </TouchableOpacity>
                 ) : (
-                    <TouchableOpacity onPress={() => setIsSearchBar(true)} >
+                    <TouchableOpacity onPress={() => props.logOuter} >
                        <Image source={logoutIcon}
                                 style={{width: 33, height: 33 }} />
                     </TouchableOpacity>
                 ) 
             }
-            
         </View>
         <View style={styles.logo} >
             <Text style={{fontSize: 30}} > SellOut! </Text>
@@ -86,18 +85,9 @@ const Header = (props) => {
         <View style={styles.container}>
             { isSearchBar ? searchActive : searchNotActive }
             <View style={styles.addButton, {marginRight: 10}} >
-                    {
-                        props.jwt === null ? ( 
-                            <TouchableOpacity onPress={loginCaller}>
-                                <Image source={loginIcon}
-                                       style={{width: 33, height: 33 }} />
-                            </TouchableOpacity>
-                            ) : (
-                            <TouchableOpacity onPress={postingCreate} > 
-                                <Ionicons name='ios-add' color='black' size={45} style={{marginBottom: 0}} />
-                            </TouchableOpacity>
-                        ) 
-                    }
+                <TouchableOpacity onPress={postingCreate} > 
+                    <Ionicons name='ios-add' color='black' size={45} style={{marginBottom: 0}} />
+                </TouchableOpacity>
             </View>
         </View>
     )
