@@ -4,7 +4,6 @@ import { StyleSheet,
          FlatList,
          View, 
          ActivityIndicator} from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
 import axios from 'axios';
 import Header from './Header';
 import Posting from './Postings/Posting';
@@ -17,10 +16,10 @@ const Feed = (props) => {
 
     const [postings, setPostings] = useState();
     const [isFetching, setIsFetching] = useState(true);
-
+    
+    console.log('feed: ',  props);
+    
     const useEffectStopper = [0];
-
-    // console.log('feed: ',  props);
 
     useEffect(() => {
         axios.get('https://sell-0ut.herokuapp.com/v1/postings/').then(res => {
@@ -39,7 +38,6 @@ const Feed = (props) => {
 
         return (
             <View style={styles.container}>
-                {/* <Header style={styles.Header} /> */}
                 <View style={styles.feed} >
                     { isFetching ? <ActivityIndicator color='black' size='large' style={{flex: 1}} /> : flatList }
                 </View>
@@ -63,20 +61,10 @@ const Feed = (props) => {
 
     return (
         <View style={styles.container}>
-            {/* <Header style={styles.Header} /> */}
             <View style={styles.feed} >
                 { isFetching ? <ActivityIndicator color='black' size='large' style={{flex: 1}} /> : flatList }
             </View>
         </View>
-        // <Stack.Navigator>
-        //     <Stack.Screen name='Feed'
-        //                   options={{headerShown: false}} >
-        //         {props => <FeedItself {...props} />  }
-        //     </Stack.Screen>
-        //     <Stack.Screen name='auth'>
-        //         {props => <Auth {...props} />}
-        //     </Stack.Screen>
-        // </Stack.Navigator>
     )
 }
 

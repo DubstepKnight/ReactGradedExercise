@@ -8,7 +8,7 @@ import { StyleSheet,
          Switch,
          View } from 'react-native';
 import axios from 'axios';
-import qs from 'qs';
+import UploadImages from './UploadImages';
 import * as ImagePicker from 'expo-image-picker';
 
 
@@ -78,19 +78,6 @@ const CreatePosting = (props) => {
         }
     }
 
-    // const fileNameSplit = pickerResult.uri.split('/');
-    // const fileName = fileNameSplit[fileNameSplit.length - 1];
-
-    // let postForm = new FormData();
-    // postForm.append('myFiles', {
-    //   uri: pickerResult.uri,
-    //   name: fileName,
-    //   type: 'image/jpeg'
-    // });
-    // postForm.append('foo', 'bar');
-
-   
-
     // create posting function that sends the request to backend
     const createHandler = () => {
         let formData = new FormData();
@@ -98,28 +85,35 @@ const CreatePosting = (props) => {
         formData.append("description", description);
         formData.append("category", category);
         formData.append("location", location);
-        for (let i=0; i < images.length; i++) {
-            formData.append("images", {
-                uri: images[i].uri,
-                type: 'image/jpeg'
-            });
+        if ( images ) {
+            for (let i=0; i < images.length; i++) {
+                formData.append("images", {
+                    uri: images[i].uri,
+                    type: 'image/jpeg'
+                });
+            }
         }
+        // UploadImages(images);
         formData.append("price", price);
         formData.append("deliveryType", deliveryType);
+        formData.append("sellerId", sellerName);
         formData.append("sellerName", sellerName);
         formData.append("sellerTelephoneNumber", sellerTelephoneNumber);
         console.log('the posting has been created');
         console.log('formData: ', formData);
 
-        axios.post('https://sell-0ut.herokuapp.com/v1/postings/',{
+        axios.post('https://sell-0ut.herokuapp.com/v1/postings/', formData, {
+        // axios.post('http://localhost:5001/v1/postings/', {
             headers: {
-                "Authorization": `Bearer ${props.jwt}`
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${props.jwt}`
             }
-        }, formData ).then(res => {
+        }).then(res => {
             console.log(res);
         }).catch(error => {
             console.log(error);
         })     
+
     }
 
     console.log('create posting props: ',  props.jwt);

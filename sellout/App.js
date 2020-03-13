@@ -63,7 +63,7 @@ export default class App extends Component {
           {/* <Stack.Navigator>
             <Stack.Screen name='App'
                           options={{headerShown: false}} > */}
-              { this.state.isCheckingTokenStorage ? <ActivityIndicator style={{flex: 1}} color='black' size='large' /> : <SellOut jwt={this.state.jwt} userInfo={this.state.userInfo} /> }
+              { this.state.isCheckingTokenStorage ? <ActivityIndicator style={{flex: 1}} color='black' size='large' /> : <SellOut jwt={this.state.jwt} jwtCatcher={this.jwtCatcher} userInfo={this.state.userInfo} /> }
             {/* </Stack.Screen>
           </Stack.Navigator> */}
         </NavigationContainer>

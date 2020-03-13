@@ -73,7 +73,7 @@ const TabNavigation = (tabProps) => {
                                 <Ionicons name='ios-home' color='black' size={25} />
                             )
                         }} >
-                { props => <Feed style={styles.Feed} {...props} userInfo={props.userInfo}  /> }
+                { props => <Feed style={styles.Feed} {...props} jwt={tabProps.jwt}  /> }
             </Tab.Screen>
             <Tab.Screen name='Library'
                         options={{
@@ -81,7 +81,7 @@ const TabNavigation = (tabProps) => {
                                 <Ionicons name='ios-list' color='black' size={25} />
                             )
                         }} >
-                { props => <Library style={styles.Library} {...props} userInfo={props.userInfo}  /> }
+                { props => <Library style={styles.Library} {...props} jwt={tabProps.jwt}  /> }
             </Tab.Screen>
         </Tab.Navigator>
     </>
@@ -95,7 +95,7 @@ const TabNavigation = (tabProps) => {
             <Stack.Navigator>
                 <Stack.Screen name='tabs'
                               options={{headerShown: false}} >
-                    {stackProps => <TabNavigation {...stackProps} />}
+                    {stackProps => <TabNavigation jwt={props.jwt} {...stackProps} />}
                 </Stack.Screen>
                 <Stack.Screen name='posting'
                               options={{headerShown: false}} >
@@ -103,7 +103,7 @@ const TabNavigation = (tabProps) => {
                 </Stack.Screen>
                 <Stack.Screen name='auth'
                               options={{headerShown: false}} >
-                    {stackProps => <Auth {...stackProps} /> }
+                    {stackProps => <Auth jwtCatcher={props.jwtCatcher} {...stackProps} /> }
                 </Stack.Screen>
                 <Stack.Screen name='createPosting'
                               options={{headerShown: false}} >
